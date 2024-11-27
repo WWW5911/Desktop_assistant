@@ -1,0 +1,20 @@
+{
+    "version" :"0.2.0",
+    "configurations" : [
+        {
+            "type" : "java",
+            "name" : "launch current file",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type":"java",
+            "name": "nala",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "Project_nala_ee5c7d1c",
+            "vmArgs": "--module-path \"c:\\Program Files\\Java\\javafx-sdk-16\\lib\" --add-modules javafx.controls,javafx.media,javafx.fxml"
+        }
+    ]
+
+}

@@ -1,0 +1,48 @@
+
+.DatePickerType1 > .arrow-button {
+    -fx-padding: 0px;
+}
+
+.DatePickerType1 > .arrow-button > .arrow {
+    -fx-padding: 0px;
+}
+.DatePickerType1 > .date-picker-display-node {
+    -fx-background-insets: 1 1 1 1;
+    -fx-background-color : transparent;
+}
+.DatePickerType1 > .date-picker-display-node:disabled {
+    -fx-opacity: 1.0;
+}
+.DatePickerType1:disabled {
+    -fx-opacity: 1.0;
+}
+
+
+.menu-item{
+    /*-fx-background-color: #ffbbbb;  */
+    -fx-font-size: 17px;
+}
+.text-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+.text-area .scroll-bar:vertical {
+    -fx-pref-width: 1;
+    -fx-opacity: 0;
+}
+.text-area .scroll-bar:horizontal {
+    -fx-pref-height: 1;
+    -fx-opacity: 0;
+}
+.text-area .text {
+    -fx-line-spacing: 10px
+}
+
+

@@ -1,0 +1,174 @@
+
+    public static void EncodeFile(String file_path){
+        String name = file_path;
+        if(!file_path.contains(System.getProperty("user.dir"))){
+            file_path = System.getProperty("user.dir") + "\\" + indif +"\\" + file_path;
+        }
+        String [] tmp = file_path.split("\\\\");
+        name = tmp[tmp.length-1].split("\\.")[0];
+        try{
+            InputStream inputStream = new FileInputStream(file_path);
+            ArrayList<Integer> al = new ArrayList<Integer>();
+            int byteRead = 0;
+            while( (byteRead = inputStream.read()) != -1 )
+                al.add(byteRead +1);
+            OutputStream fw = new FileOutputStream(System.getProperty("user.dir") + "\\" + outdif + "\\" + name + ".moe" ) ;
+            for(int i = 0; i < al.size(); ++i){
+                fw.write(al.get(i));
+            }
+            fw.close();
+            inputStream.close();
+
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println("加密檔案失敗");
+        }
+
+    }
+    public static InputStream ReadEncodeFile(String file_path){
+        if(!file_path.contains(System.getProperty("user.dir")))
+            file_path = System.getProperty("user.dir") + "\\" + outdif +"\\" + file_path;
+        try{
+            InputStream inputStream = new FileInputStream(file_path);
+            String result = "";
+            int byteRead = 0;
+            ArrayList<Byte> al = new ArrayList<Byte>(); 
+            while( (byteRead = inputStream.read()) != -1 )
+                al.add( (byte)(byteRead -1) );
+            byte[] arr = new byte[al.size()];
+            for(int i = 0; i < al.size(); ++i)
+                arr[i] = al.get(i);
+            inputStream.close();
+            return new ByteArrayInputStream( arr );
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println("讀取加密檔案失敗");
+        }
+        return null;
+
+    }
+    
+
+
+
+
+
+HBox moreFuct;
+moreFuct = new HBox();
+        moreFuct.setSpacing(-15);
+        moreFuct.setPadding(new Insets(-5,-10,-5,-10));
+        moreFuct.setLayoutX(moreFuctPosi);
+        moreFuct.setLayoutY(285);
+
+
+    void createMFThread(){
+        hboxThread = new Thread(){
+            @Override
+            public void run(){
+                System.out.println(this.getId());
+                while(hboxThreadFlag){
+                    if(MTFlag) {
+                        Platform.runLater(new Runnable(){
+                            @Override
+                            public void run(){
+                                if(moreFuctFlag){
+                                    if(moreFuctPosi > 1080){
+                                        moreFuctPosi -= 10;
+                                        moreFuct.setLayoutX(moreFuctPosi);
+                                    }else{
+                                        MTFlag = false;
+                                    }
+                                }else{
+                                    if(moreFuctPosi < 1280){
+                                        moreFuctPosi += 10;
+                                        moreFuct.setLayoutX(moreFuctPosi);
+                                    }else{
+                                        MTFlag = true;
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    try{
+                        sleep(16);
+                    }catch(Exception e){}
+                }
+
+            }
+        };
+
+
+
+/*
+        context.textProperty().addListener((ChangeListener<? super String>) new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> arg0, String oldValue, String newValue) {
+                int leng = newValue.length(), count = 0;
+                if(leng > 3 &&  newValue.charAt(leng-1) + newValue.charAt(leng-2) + newValue.charAt(leng-3) != 30){
+                    String tmp = "";
+                    for(int k = 1; k <= 3; ++k){
+                        if(newValue.charAt(leng-k) != 10){
+                            ++count;
+                            tmp += "\n\r";
+                        }
+                    }
+                    tmp = newValue + tmp.substring(0, count);
+                    context.setText(tmp);
+                    Platform.runLater( new Runnable() {
+                        @Override
+                        public void run() {
+                            context.positionCaret( leng );
+                        }
+                    });
+                }
+                    
+            }
+        });
+*/
+
+
+                // }else{
+                //     context.getLayoutBounds().getWidth();
+                //     long chinese = change.getControlNewText().chars().filter(a -> a > 1000 ).count();
+                //     long english = change.getControlNewText().length() - chinese;
+                //     double count = chinese*1.75 + english;
+                //     if(count > 448){
+                //         String str = change.getText();
+                //         int i = str.length()-1;
+                //         for(; i >= 0 && count > 448; --i){
+                //             if(str.charAt(i) > 1000) count -= 1.75;
+                //             else --count;
+                //         }
+                //         if(i < 1)change.setText("");
+                //         else change.setText(str.substring(0, i+1));
+                //     }
+                // }
+
+
+        for(int y = fY; y <= tY; ++y){
+            for(int m = tM; m <= tM; ++m){
+                String date = y + "-" + m;
+                try {
+                    EventCenter df = new EventCenter(date);
+                    if(m == fM ){
+                        if(fM == tM){
+                            for(int d = fd; d <= td; ++d ){
+                                df.addNewEvent(ConventJson(d, df.getDayData(d).length()));  /////////////   中間時間要改成0~1440 /////////
+                            }
+                        }else {
+                            for(int d = fd; d <= MonthDays(y, m); ++d)
+                                df.addNewEvent(ConventJson(d, df.getDayData(d).length()));
+                        }
+                    }else if(m != tM){
+                        for(int d = 1; d <= MonthDays(y, m); ++d )
+                            df.addNewEvent(ConventJson(d, df.getDayData(d).length()));
+                    }else{
+                        for(int d = 1; d <= td; ++d)
+                            df.addNewEvent(ConventJson(d, df.getDayData(d).length()));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                
+            }
+        }
